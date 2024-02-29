@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="thebigadventure" default="jar">
+	<path id="classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<property name="src" value="src" />
+	<property name="classes" value="classes" />
+	<property name="javadoc" value="docs/api" />
+	<property name="jar" value="thebigadventure.jar" />
+
+	<target name="compile">
+		<javac includeantruntime="false" srcdir="${src}" destdir="${classes}" classpathref="classpath" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<manifest file="MANIFEST.MF">
+			<attribute name="Version" value="1.0" />
+			<attribute name="Main-Class" value="fr.uge.project.main.Main" />
+		</manifest>
+		<jar destfile="${jar}" basedir="${classes}" manifest="MANIFEST.MF">
+			<zipfileset src="lib/zen5.jar" />
+			<fileset dir="${src}">
+				<include name="images/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="${javadoc}" sourcepath="${src}" classpathref="classpath">
+			<fileset dir="${src}">
+				<include name="**/*.java" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="clean">
+		<delete includeEmptyDirs="true" dir="${classes}" />
+		<mkdir dir="${classes}" />
+		<delete includeEmptyDirs="true" dir="${javadoc}" />
+		<delete file="${jar}" />
+		<delete file="MANIFEST.MF" />
+	</target>
+
+</project>
